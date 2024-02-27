@@ -1,15 +1,21 @@
-/** @jest-environment jsdom */
-// import {render, screen} from "@testing-library/jest-dom"
-import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect";
-import CardList from "../CardList"
+/**
+ * @jest-environment jsdom
+ */
+import {render, screen} from '@testing-library/react'
+import '@testing-library/jest-dom'
+import CardList from '../CardList/'
 
-
-//Não pode ser criado dois testes dentro do mesmo bloco Describe
-describe("CardList", () => {
-    it("Tem de renderizar corretamente na tela.", () => {
-        render(<CardList />);
+// Não pode ser criado dois testes dentro do mesmo bloco Describe
+describe("Testa a funcionalidade dos inputs", () => {
+    it("Testa o render do botão de criar.", () => {
+        render(<CardList/>);
 
         expect(screen.getByText("Criar")).toBeInTheDocument();
+    })
+
+    it("Testa o render do input de criar tarefa", () => {
+        render(<CardList/>);
+
+        expect(screen.getByPlaceholderText("Digite sua tarefa")).toBeInTheDocument()
     })
 })
