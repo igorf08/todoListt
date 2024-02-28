@@ -100,12 +100,14 @@ export default function CardList({ tarefas, setTarefas }) {
                 <button
                   onClick={e => handleEdit(tarefa.id)}
                   className="border-2 rounded-md bg-zinc-200"
+                  aria-label="Editar"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(tarefa.id)}
                   className="border-2 rounded-md bg-zinc-200"
+                  aria-label="Excluir"
                 >
                   Excluir
                 </button>
