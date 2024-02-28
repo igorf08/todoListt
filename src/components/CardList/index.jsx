@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function CardList({ tarefas, setTarefas }) {
-  
   useEffect(() => {
-    setNumTarefas(tarefas.lenght);
-  }, tarefas);
+    setNumTarefas(tarefas.length);
+  }, [tarefas]);
 
   const [novaTarefa, setNovaTarefa] = useState("");
-  const [tarefaEditada, setTarefaEditada] = useState(null);
+  const [tarefaEditada, setTarefaEditada] = useState("");
   const [numTarefas, setNumTarefas] = useState(null);
 
   function handleCriarTarefas() {
@@ -33,20 +32,25 @@ export default function CardList({ tarefas, setTarefas }) {
       });
   }
 
-  function handleEdit(id, novaTarefa) {
+  function handleEdit(id) {
+    if (tarefaEditada.trim() === "") {
+      alert("O campo de edição está vazio.");
+      return;
+    }
+    
     axios
-      .put(`http://localhost:3000/tarefas/${id}`, { tarefa: novaTarefa })
+      .put(`http://localhost:3000/tarefas/${id}`, { tarefa: tarefaEditada })
       .then((response) => {
         setTarefas(
           tarefas.map((tarefa) => {
             if (tarefa.id === id) {
-              return { ...tarefa, tarefa: novaTarefa };
+              return { ...tarefa, tarefa: tarefaEditada };
             } else {
               return tarefa;
             }
           })
         );
-        setTarefaEditada(null);
+        setTarefaEditada("");
       })
       .catch((error) => {
         console.error("Ocorreu um erro ao editar a tarefa:", error);
@@ -63,12 +67,29 @@ export default function CardList({ tarefas, setTarefas }) {
           type="text"
           placeholder="Digite sua tarefa"
         />
+        <input
+          value={tarefaEditada}
+          onChange={(e) => setTarefaEditada(e.target.value)}
+          className="px-2 border-2 border-zinc-700 bg-zinc-300 rounded-md placeholder:font-medium"
+          type="text"
+          placeholder="Edite sua tarefa"
+        />
         <button
           onClick={handleCriarTarefas}
           className="rounded-md px-2 bg-zinc-300"
         >
           Criar
         </button>
+      </div>
+      <div className="flex justify-between w-full h-8 font-semibold">
+        {tarefas.length > 0 && <p>Minhas tarefas:</p>}
+        {tarefas.length === 1 ? (
+          <p>Você tem {numTarefas} tarefa</p>
+        ) : (
+          <p>Você tem {numTarefas} tarefas</p>
+        )}
+
+        {/* {tarefas.length >= 2 && } */}
       </div>
       <ul className="w-full flex flex-col gap-2 ">
         {tarefas &&
@@ -77,7 +98,7 @@ export default function CardList({ tarefas, setTarefas }) {
               <li key={tarefa.id}>{tarefa.tarefa}</li>
               <div className="flex gap-2 ml-auto">
                 <button
-                  onClick={() => handleEdit(tarefa.id, novaTarefa)}
+                  onClick={e => handleEdit(tarefa.id)}
                   className="border-2 rounded-md bg-zinc-200"
                 >
                   Editar
