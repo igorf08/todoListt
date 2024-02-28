@@ -15,6 +15,7 @@ function App() {
     const dados = await axios.get('http://localhost:3000/tarefas')
     console.log(dados.data);
     setTarefas(dados.data);
+
   }
   return (
     <Container>

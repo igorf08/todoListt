@@ -1,20 +1,3 @@
 {
-  "tarefas": [
-    {
-      "id": "107a",
-      "tarefa": "Passear"
-    },
-    {
-      "id": "c812",
-      "tarefa": "Viajar"
-    },
-    {
-      "id": "6d6a",
-      "tarefa": "Correr"
-    },
-    {
-      "id": "9b67",
-      "tarefa": "Curtir"
-    }
-  ]
+  "tarefas": []
 }

@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function CardList({ tarefas, setTarefas }) {
+  
+  useEffect(() => {
+    setNumTarefas(tarefas.lenght);
+  }, tarefas);
+
   const [novaTarefa, setNovaTarefa] = useState("");
   const [tarefaEditada, setTarefaEditada] = useState(null);
+  const [numTarefas, setNumTarefas] = useState(null);
 
   function handleCriarTarefas() {
     if (novaTarefa.trim() !== "") {
@@ -48,42 +54,43 @@ export default function CardList({ tarefas, setTarefas }) {
   }
 
   return (
-    <div className="flex flex-col items-start justify-start gap-4 p-2 border-2 border-zinc-500 shadow-md w-[40%] min-h-[50%] max-h-fit rounded-md">
-      <div className="flex w-[100%] justify-evenly border-b-2 border-zinc-300 pb-2">
+    <div className="flex flex-col items-start justify-start gap-4 p-2 border-2 border-gray-800 shadow-md w-[40%] min-h-[50%] max-h-fit rounded-md">
+      <div className="flex w-[100%] justify-evenly border-b-2 border-zinc-600 pb-2">
         <input
           value={novaTarefa}
           onChange={(e) => setNovaTarefa(e.target.value)}
-          className="px-2 border-2 border-zinc-400 rounded-md"
+          className="px-2 border-2 border-zinc-700 bg-zinc-300 rounded-md placeholder:font-medium"
           type="text"
           placeholder="Digite sua tarefa"
         />
         <button
           onClick={handleCriarTarefas}
-          className="rounded-md px-2 border-2 border-green-300 bg-green-300"
+          className="rounded-md px-2 bg-zinc-300"
         >
           Criar
         </button>
       </div>
       <ul className="w-full flex flex-col gap-2 ">
-        {tarefas && tarefas.map((tarefa) => (
-          <div key={tarefa.id} className="flex gap-4">
-            <li key={tarefa.id}>{tarefa.tarefa}</li>
-            <div className="flex gap-2 ml-auto">
-              <button
-                onClick={() => handleEdit(tarefa.id, novaTarefa)}
-                className="border-2 rounded-md bg-zinc-200"
-              >
-                Editar
-              </button>
-              <button
-                onClick={() => handleDelete(tarefa.id)}
-                className="border-2 rounded-md bg-zinc-200"
-              >
-                Excluir
-              </button>
+        {tarefas &&
+          tarefas.map((tarefa) => (
+            <div key={tarefa.id} className="flex gap-4">
+              <li key={tarefa.id}>{tarefa.tarefa}</li>
+              <div className="flex gap-2 ml-auto">
+                <button
+                  onClick={() => handleEdit(tarefa.id, novaTarefa)}
+                  className="border-2 rounded-md bg-zinc-200"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(tarefa.id)}
+                  className="border-2 rounded-md bg-zinc-200"
+                >
+                  Excluir
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </ul>
     </div>
   );
