@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -24,7 +25,7 @@ export default function CardList({ tarefas, setTarefas }) {
   function handleDelete(id) {
     axios
       .delete(`http://localhost:3000/tarefas/${id}`)
-      .then((response) => {
+      .then(() => {
         setTarefas(tarefas.filter((tarefa) => tarefa.id !== id));
       })
       .catch((error) => {
@@ -40,7 +41,7 @@ export default function CardList({ tarefas, setTarefas }) {
     
     axios
       .put(`http://localhost:3000/tarefas/${id}`, { tarefa: tarefaEditada })
-      .then((response) => {
+      .then(() => {
         setTarefas(
           tarefas.map((tarefa) => {
             if (tarefa.id === id) {
@@ -58,7 +59,7 @@ export default function CardList({ tarefas, setTarefas }) {
   }
 
   return (
-    <div className="flex flex-col items-start justify-start gap-4 p-2 border-2 border-gray-800 shadow-md w-[40%] min-h-[50%] max-h-fit rounded-md">
+    <div className="flex flex-col items-start justify-start gap-4 p-2 border-2 border-gray-800 shadow-md w-[40%] bg-zinc-500 min-h-[50%] max-h-fit rounded-md">
       <div className="flex w-[100%] justify-evenly border-b-2 border-zinc-600 pb-2">
         <input
           value={novaTarefa}
@@ -98,15 +99,15 @@ export default function CardList({ tarefas, setTarefas }) {
               <li key={tarefa.id}>{tarefa.tarefa}</li>
               <div className="flex gap-2 ml-auto">
                 <button
-                  onClick={e => handleEdit(tarefa.id)}
-                  className="border-2 rounded-md bg-zinc-200"
+                  onClick={() => handleEdit(tarefa.id)}
+                  className="hover:opacity-80 transition-all border-2 rounded-md bg-zinc-200"
                   aria-label="Editar"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(tarefa.id)}
-                  className="border-2 rounded-md bg-zinc-200"
+                  className="hover:opacity-80 transition-all border-2 rounded-md bg-zinc-200"
                   aria-label="Excluir"
                 >
                   Excluir
